@@ -73,6 +73,9 @@ process_data <- function(x, type) {
     stop("internal error: 'type' must be one of \"biomarkers\", \"biomarker_qc_flags\", or \"sample_qc_flags\"")
   }
 
+  # Get unique field ids (in case empty_qc_fields aren't actually empty)
+  field_ids <- unique(field_ids[!is.na(UKB.Field.ID)])
+  
   # Map to biomarker variable names
   if (type == "biomarkers") {
     field_ids[ukbnmr::nmr_info, on = list(UKB.Field.ID), Biomarker := Biomarker]
